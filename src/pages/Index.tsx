@@ -5,6 +5,7 @@ import { DataTable } from '@/components/DataTable';
 import { ForgeFormulaTable } from '@/components/ForgeFormulaTable';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { ErrorMessage } from '@/components/ErrorMessage';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Index = () => {
   const { forgeFormulasDisplay, itemBase, loading, error } = useExternalData();
@@ -56,19 +57,29 @@ const Index = () => {
           </div>
         </div>
 
-        {/* 資料表格 */}
-        <div className="space-y-8">
-          <ForgeFormulaTable
-            data={forgeFormulasDisplay}
-            className="shadow-sm"
-          />
+        {/* 分頁顯示表格 */}
+        <Tabs defaultValue="forge" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="forge">鍛造配方</TabsTrigger>
+            <TabsTrigger value="items">物品資料</TabsTrigger>
+          </TabsList>
           
-          <DataTable
-            title="物品基礎資料 (item_base)"
-            data={itemBase}
-            className="shadow-sm"
-          />
-        </div>
+          <TabsContent value="forge">
+            <ForgeFormulaTable
+              data={forgeFormulasDisplay}
+              className="shadow-sm"
+            />
+          </TabsContent>
+          
+          <TabsContent value="items">
+            <DataTable
+              title="物品基礎資料 (item_base)"
+              data={itemBase}
+              className="shadow-sm"
+              showOnlyRequiredFields={true}
+            />
+          </TabsContent>
+        </Tabs>
 
         {/* 頁腳資訊 */}
         <div className="mt-12 text-center text-sm text-gray-500">
