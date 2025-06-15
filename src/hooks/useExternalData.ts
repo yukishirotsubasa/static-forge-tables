@@ -5,7 +5,7 @@ export interface ForgeFormula {
   item_id: number;
   level: number;
   chance: number;
-  pattern: number[][];
+  pattern: any; // Changed to any to handle different data structures
 }
 
 export interface ItemBase {
@@ -35,25 +35,55 @@ export const useExternalData = () => {
   };
 
   // 統計材料並格式化顯示
-  const formatMaterials = (pattern: number[][], items: ItemBase[]): string => {
+  const formatMaterials = (pattern: any, items: ItemBase[]): string => {
     const materialCount: Record<number, number> = {};
     
-    // 統計每個材料的數量
-    pattern.forEach(row => {
-      row.forEach(itemId => {
-        if (itemId !== -1) { // -1 表示空格
-          materialCount[itemId] = (materialCount[itemId] || 0) + 1;
-        }
-      });
-    });
+    console.log('Processing pattern:', pattern);
+    
+    try {
+      // Handle different pattern structures
+      if (Array.isArray(pattern)) {
+        // 統計每個材料的數量
+        pattern.forEach(row => {
+          if (Array.isArray(row)) {
+            row.forEach(itemId => {
+              if (typeof itemId === 'number' && itemId !== -1) { // -1 表示空格
+                materialCount[itemId] = (materialCount[itemId] || 0) + 1;
+              }
+            });
+          } else if (typeof row === 'number' && row !== -1) {
+            // Handle case where pattern is a flat array of numbers
+            materialCount[row] = (materialCount[row] || 0) + 1;
+          }
+        });
+      } else if (typeof pattern === 'object' && pattern !== null) {
+        // Handle case where pattern might be an object
+        console.log('Pattern is an object, attempting to extract materials');
+        // Try to find array-like properties
+        Object.values(pattern).forEach(value => {
+          if (Array.isArray(value)) {
+            value.forEach(itemId => {
+              if (typeof itemId === 'number' && itemId !== -1) {
+                materialCount[itemId] = (materialCount[itemId] || 0) + 1;
+              }
+            });
+          }
+        });
+      }
 
-    // 轉換為名稱和數量的字串
-    return Object.entries(materialCount)
-      .map(([itemId, count]) => {
-        const name = getItemName(Number(itemId), items);
-        return count > 1 ? `${name} x ${count}` : name;
-      })
-      .join(', ');
+      // 轉換為名稱和數量的字串
+      const materials = Object.entries(materialCount)
+        .map(([itemId, count]) => {
+          const name = getItemName(Number(itemId), items);
+          return count > 1 ? `${name} x ${count}` : name;
+        })
+        .join(', ');
+      
+      return materials || 'No materials found';
+    } catch (err) {
+      console.error('Error processing pattern:', pattern, err);
+      return 'Error processing materials';
+    }
   };
 
   // 轉換鍛造配方資料為顯示格式
@@ -79,6 +109,12 @@ export const useExternalData = () => {
           if (globalForgeFormulas && typeof globalForgeFormulas === 'object') {
             setForgeFormulas(globalForgeFormulas);
             console.log('FORGE_FORMULAS 載入成功:', Object.keys(globalForgeFormulas).length, '筆配方');
+            
+            // Log first few entries to understand the structure
+            const firstKey = Object.keys(globalForgeFormulas)[0];
+            if (firstKey) {
+              console.log('Sample FORGE_FORMULA structure:', globalForgeFormulas[firstKey]);
+            }
           } else {
             console.warn('FORGE_FORMULAS 未找到或格式不正確');
             setForgeFormulas({});
