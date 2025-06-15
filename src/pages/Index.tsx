@@ -2,11 +2,12 @@
 import React from 'react';
 import { useExternalData } from '@/hooks/useExternalData';
 import { DataTable } from '@/components/DataTable';
+import { ForgeFormulaTable } from '@/components/ForgeFormulaTable';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { ErrorMessage } from '@/components/ErrorMessage';
 
 const Index = () => {
-  const { forgeFormulas, itemBase, loading, error } = useExternalData();
+  const { forgeFormulasDisplay, itemBase, loading, error } = useExternalData();
 
   if (loading) {
     return (
@@ -45,8 +46,8 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow-sm border p-6 text-center">
             <h3 className="text-lg font-semibold text-gray-700 mb-2">鍛造配方</h3>
-            <p className="text-3xl font-bold text-blue-600">{forgeFormulas.length}</p>
-            <p className="text-sm text-gray-500">筆資料</p>
+            <p className="text-3xl font-bold text-blue-600">{forgeFormulasDisplay.length}</p>
+            <p className="text-sm text-gray-500">筆配方</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6 text-center">
             <h3 className="text-lg font-semibold text-gray-700 mb-2">物品基礎資料</h3>
@@ -57,9 +58,8 @@ const Index = () => {
 
         {/* 資料表格 */}
         <div className="space-y-8">
-          <DataTable
-            title="鍛造配方 (FORGE_FORMULAS)"
-            data={forgeFormulas}
+          <ForgeFormulaTable
+            data={forgeFormulasDisplay}
             className="shadow-sm"
           />
           
