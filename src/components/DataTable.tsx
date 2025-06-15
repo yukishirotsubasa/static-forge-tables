@@ -33,23 +33,8 @@ export const DataTable: React.FC<DataTableProps> = ({
   // 獲取所有可能的欄位名稱
   const getAllKeys = (dataArray: any[]) => {
     if (showOnlyRequiredFields) {
-      // 僅顯示 b_i 和 params 裡的各項資料
-      const requiredFields = ['b_i', 'name'];
-      const paramsFields: string[] = [];
-      
-      // 收集所有 params 的欄位
-      dataArray.forEach(item => {
-        if (item.params && typeof item.params === 'object') {
-          Object.keys(item.params).forEach(key => {
-            const fieldName = `params.${key}`;
-            if (!paramsFields.includes(fieldName)) {
-              paramsFields.push(fieldName);
-            }
-          });
-        }
-      });
-      
-      return [...requiredFields, ...paramsFields.sort()];
+      // 僅顯示 b_i、name 和 params.price
+      return ['b_i', 'name', 'params.price'];
     }
     
     const keySet = new Set<string>();
