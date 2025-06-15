@@ -5,7 +5,7 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // ! 根據您要部署的 repo 名稱調整 base
-const REPO_NAME = "forge-viewer"; // ⚠️請改成您的 repo 名稱
+const REPO_NAME = "static-forge-tables"; // ⚠️請改成您的 repo 名稱
 
 export default defineConfig(({ mode }) => ({
   base: `/${REPO_NAME}/`,
