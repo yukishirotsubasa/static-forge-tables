@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>鍛造資料檢視器</title>
+    <meta name="description" content="顯示鍛造配方和物品基礎資料的靜態網站" />
+    <meta name="author" content="Lovable" />
+
+    <meta property="og:title" content="鍛造資料檢視器" />
+    <meta property="og:description" content="顯示鍛造配方和物品基礎資料的靜態網站" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    
+    <!-- 範例資料 - 在實際使用時請替換為您的外部 JS 檔案 -->
+    <!--<script>
+      // 範例物品基礎資料
+      var item_base = [
+        { b_i: 0, name: "Bronze Dagger" },
+        { b_i: 1, name: "Bronze Shield" },
+        { b_i: 4, name: "Blunt Sword" },
+        { b_i: 29, name: "Iron Ingot" },
+        { b_i: 34, name: "Wood Stick" },
+        { b_i: 50, name: "Silver Ingot" },
+        { b_i: 51, name: "Silver Sword" },
+        { b_i: 313, name: "Magic Gem" }
+      ];
+
+      // 範例鍛造配方資料
+      var FORGE_FORMULAS = {
+        "0": {
+          item_id: 0,
+          level: 1,
+          chance: 1,
+          pattern: [[34], [34], [29]]
+        },
+        "1": {
+          item_id: 1,
+          level: 10,
+          chance: 1,
+          pattern: [[34, 34, 34], [34, 29, -1]]
+        },
+        "10": {
+          item_id: 51,
+          level: 20,
+          chance: 0.85,
+          pattern: [[50], [50], [313]]
+        }
+      };
+    </script> -->
+    
+    <!-- 載入外部 JavaScript 檔案 -->
+    <!-- 請將下面的 URL 替換為您實際的外部 JS 檔案位置 -->
+    <script src="https://data.mo.ee/release.js"></script>
+  </body>
+</html>
